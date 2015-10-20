@@ -21,40 +21,46 @@ describe Chef::Handler::OpenTSDB do
 
   describe "#format_body" do
     it "returns a json string" do
-      handler = {
+      metric = {
+        "name" => "test",
+        "timestamp" => 1,
+        "value" => 1,
+        "tags" => { "tag1" => "value1" }
+      }
+      expected_metric = {
         "metric" => "test",
         "timestamp" => 1,
         "value" => 1,
         "tags" => { "tag1" => "value1" }
       }
 
-      expect(described_class.new.send(:format_body, handler)).to eq(handler.to_json)
+      expect(described_class.new.send(:format_body, metric)).to eq(expected_metric.to_json)
     end
   end
 
   describe "#get_tags" do
     it "returns with default tags" do
-      handler_without_tags = {
-        "metric" => "test",
+      metric_without_tags = {
+        "name" => "test",
         "timestamp" => 1,
         "value" => 1
       }
 
-      tag_key = described_class.new.send(:get_tags, handler_without_tags).keys[0]
+      tag_key = described_class.new.send(:get_tags, metric_without_tags).keys[0]
 
       expect(tag_key).to eq("host")
     end
 
     context "when run_status is true" do
       it "it returns run_satus tag" do
-        handler_without_tags = {
+        metric_without_tags = {
           "metric" => "test",
           "timestamp" => 1,
           "value" => 1,
           "run_status_tag" => true
         }
 
-        tag_value = described_class.new.send(:get_tags, handler_without_tags)["run_status"]
+        tag_value = described_class.new.send(:get_tags, metric_without_tags)["run_status"]
 
         expect(tag_value).to eq(0)
       end
@@ -68,7 +74,7 @@ describe Chef::Handler::OpenTSDB do
           "run_status" => {
             "elapsed_time" => false
           },
-          "handlers" => {}
+          "metrics" => {}
         }
         handler_object = described_class.new(config)
 
@@ -81,7 +87,7 @@ describe Chef::Handler::OpenTSDB do
           "run_status" => {
             "elapsed_time" => true
           },
-          "handlers" => {}
+          "metrics" => {}
         }
         handler_object = described_class.new(config)
 

@@ -8,7 +8,7 @@ class Chef::Handler::OpenTSDB < Chef::Handler
   def initialize(config = {})
     @config = config
 
-    @handlers = config["handlers"]
+    @metrics = config["metrics"]
     @hostname = config["hostname"] || "opentsdb"
     @path = "/api/put"
     @port = config["port"] || 4242
@@ -17,14 +17,14 @@ class Chef::Handler::OpenTSDB < Chef::Handler
   end
 
   def report
-    handlers = add_run_status_metrics
-    handlers.each do |_name, handler|
+    metrics = add_run_status_metrics
+    metrics.each do |_name, metric|
       begin
         Timeout.timeout(@timeout) do
-          send_metric(handler)
+          send_metric(metric)
         end
       rescue StandardError => e
-        Chef::Log.warn("OpenTSDB handler failed to send metric #{handler['metric']}:\n #{e}")
+        Chef::Log.warn("OpenTSDB metric failed to send metric #{metric['metric']}:\n #{e}")
       end
     end
   end
@@ -33,46 +33,46 @@ class Chef::Handler::OpenTSDB < Chef::Handler
 
   def add_run_status_metrics
     # attribute is immutable  and not hash:/
-    handlers = @handlers.to_hash
+    metrics = @metrics.to_hash
     @config["run_status"].each do |key, value|
       next unless value
-      handler_hash = {
-        "metric" => "chef.#{key}",
+      metric_hash = {
+        "name" => "chef.#{key}",
         "value" => run_status.send(key)
       }
-      if handlers[key]
-        handlers[key] = handlers[key].merge(handler_hash)
+      if metrics[key]
+        metrics[key] = metrics[key].merge(metric_hash)
       else
-        handlers[key] = handler_hash
+        metrics[key] = metric_hash
       end
     end
-    handlers
+    metrics
   end
 
-  def send_metric(handler)
+  def send_metric(metric)
     # rubocop:disable UselessAssignment
     req = Net::HTTP::Post.new(@path, initheader = { "Content-Type" => "application/json" })
     # rubocop:enable UselessAssignment
-    req.body = format_body(handler)
-    puts req.body
+    req.body = format_body(metric)
+    Chef::Log.info("Sending metric:\n #{req.body}")
     response = Net::HTTP.new(@hostname, @port).start { |http| http.request(req) }
     response.value
   end
 
-  def format_body(handler)
+  def format_body(metric)
     body = {
-      "metric" => handler["metric"],
+      "metric" => metric["name"],
       "timestamp" => @time,
-      "value" => handler["value"],
-      "tags" => get_tags(handler)
+      "value" => metric["value"],
+      "tags" => get_tags(metric)
     }
     body.to_json
   end
 
-  def get_tags(handler)
+  def get_tags(metric)
     # use 'host' for key due to opentsdb convention
-    tags = handler["tags"] || { "host" => Socket.gethostname }
-    if handler["run_status_tag"]
+    tags = metric["tags"] || { "host" => Socket.gethostname }
+    if metric["run_status_tag"]
       tags.merge("run_status" => run_status.success? ? 0 : 1)
     else
       tags

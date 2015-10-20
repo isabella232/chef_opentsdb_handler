@@ -1,5 +1,5 @@
 # Used in handler template
-default["opentsdb_handler"]["handlers"] = {}
+default["opentsdb_handler"]["metrics"] = {}
 default["opentsdb_handler"]["run_status_tag"] = false
 default["opentsdb_handler"]["run_status"]["elapsed_time"] = false
 default["opentsdb_handler"]["run_status"]["start_time"] = false

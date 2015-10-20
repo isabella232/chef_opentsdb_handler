@@ -19,7 +19,7 @@ describe "opentsdb_handler::default" do
       source: "handler_file",
       arguments: [
         {
-          "handlers" => {},
+          "metrics" => {},
           "run_status_tag" => false,
           "run_status" => {
             "elapsed_time" => false,

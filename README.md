@@ -16,25 +16,25 @@ Attributes
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['opentsdb_handler']['handlers']</tt></td>
+    <td><tt>['opentsdb_handler']['metrics']</tt></td>
     <td>Hash</td>
-    <td>this is where each handler is defined</td>
+    <td>this is where each metric to be sent is defined as { unique_name => metric_hash }</td>
     <td><tt>{}</tt></td>
   </tr>
   <tr>
-    <td><tt>['opentsdb_handler']['handlers'][handler_name]['metric']</tt></td>
+    <td><tt>['opentsdb_handler']['metric'][unique_name]['name']</tt></td>
     <td>String</td>
-    <td>Metric to send</td>
+    <td>Metric name</td>
     <td><tt>None</tt></td>
   </tr>
   <tr>
-    <td><tt>['opentsdb_handler']['handlers'][handler_name]['value']</tt></td>
+    <td><tt>['opentsdb_handler']['metrics'][unique_name]['value']</tt></td>
     <td>Hash</td>
     <td>Value of metric</td>
     <td><tt>None</tt></td>
   </tr>
   <tr>
-    <td><tt>['opentsdb_handler']['handlers'][handler_name]['tags']</tt></td>
+    <td><tt>['opentsdb_handler']['metrics'][unique_name]['tags']</tt></td>
     <td>Hash</td>
     <td>Key => Value hash of tags for the metric.</td>
     <td><tt>{'hostname' => Socket.gethostname}(IN HANDLER SCRIPT)</tt></td>
@@ -42,7 +42,7 @@ Attributes
   <tr>
     <td><tt>['opentsdb_handler'][handler_name]['run_status_tag']</tt></td>
     <td>Boolean</td>
-    <td>Will add run_status=0|1 tag if true</td>
+    <td>Will add run_status=0|1 (success, failure respectively) tag if true</td>
     <td><tt>false</tt></td>
   </tr>
   <tr>
@@ -78,10 +78,10 @@ Usage
 Include `opentsdb_handler` in your node's `run_list` and add the following attributes:
 
 ```ruby
-node.default['opentsdb_hander']['your_handler_name']['metric'] = 'flying_puppy.metric'
-node.default['opentsdb_hander']['your_handler_name']['value'] = 10
+node.default['opentsdb_hander']['metrics']['flying_puppy_metric']['name'] = 'flying_puppy.metric'
+node.default['opentsdb_hander']['metrics']['flying_puppy_metric']['value'] = 10
 # Optional
-node.default['opentsdb_hander']['your_handler_name']['tags'] = {"breed" => "corgi"}
+node.default['opentsdb_hander']['metrics]['flying_puppy_metric']['tags'] = {"breed" => "corgi"}
 ```
 
 You can add as many metrics to this hash as you want. The timestamp will be created at the start of the handler.

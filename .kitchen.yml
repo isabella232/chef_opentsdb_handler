@@ -23,17 +23,17 @@ suites:
         hostname: localhost
         run_status:
           elapsed_time: true
-        handlers:
+        metrics:
           test_handler_with_tags:
-            metric: "test.withtags"
+            name: "test.withtags"
             value: 1
             tags:
               test_tag: "test_value"
           test_handler_without_tags:
-            metric: "test.withouttags"
+            name: "test.withouttags"
             value: 1
           test_handler_with_run_status:
-            metric: "test.withrunstatus"
+            name: "test.withrunstatus"
             value: 1
             run_status_tag: true
 
