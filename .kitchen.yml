@@ -14,6 +14,21 @@ suites:
       - recipe[java]
       - recipe[opentsdb]
       - recipe[opentsdb_handler::default]
+      - recipe[opentsdb_handler::test_helpers]
     attributes:
       opentsdb_handler:
         hostname: localhost
+        handlers:
+          test_handler_with_tags:
+            metric: test.with_tags
+            value: 1
+            tags:
+              test_tag: "test_value"
+          test_handler_without_tags:
+            metric: test.metric_without_tags
+            value: 1
+          test_handler_with_run_status:
+            metric: test.metric_without_run_status
+            value: 1
+            run_status_tag: false
+

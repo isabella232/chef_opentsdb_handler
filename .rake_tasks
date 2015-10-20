@@ -1,0 +1,7 @@
+kitchen:all
+kitchen:default-ubuntu-1404
+test
+test:chefspec
+test:foodcritic
+test:rubocop
+test:rubocop:auto_correct

@@ -7,8 +7,8 @@
 
 include_recipe "chef_handler"
 
-template node["opentsdb_handler"]["handler_path"] do
-  source "opentsdb_handler.rb.erb"
+cookbook_file node["opentsdb_handler"]["handler_path"] do
+  source "opentsdb_handler.rb"
   mode "0600"
   action :nothing
 end.run_action(:create)

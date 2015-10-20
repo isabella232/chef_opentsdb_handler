@@ -7,9 +7,9 @@ describe "opentsdb_handler::default" do
     end.converge(described_recipe)
   end
 
-  it "creates the handler template" do
-    expect(chef_run).to create_template("handler_file").at_compile_time.with(
-      source: "opentsdb_handler.rb.erb",
+  it "creates the handler file" do
+    expect(chef_run).to create_cookbook_file("handler_file").at_compile_time.with(
+      source: "opentsdb_handler.rb",
       mode: "0600"
     )
   end
@@ -17,14 +17,7 @@ describe "opentsdb_handler::default" do
   it "enables the opentsdb handler" do
     expect(chef_run).to enable_chef_handler("Chef::Handler::OpenTSDB").at_compile_time.with(
       source: "handler_file",
-      arguments: [
-        { "default_hostname" => "opentsdb",
-          "default_port" => 4242,
-          "default_tags" => { "hostname" => "chefspec" },
-          "default_timeout" => 10,
-          "add_run_status_tag" => true,
-          "handlers" => {},
-          "handler_path" => "handler_file" }]
+      arguments: [{ "handlers" => {}, "handler_path" => "handler_file" }]
     )
   end
 end

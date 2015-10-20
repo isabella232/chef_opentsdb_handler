@@ -95,9 +95,19 @@ Contributing
 
 Testing
 -------
-* Integration tests are run with [test-kitchen](https://github.com/test-kitchen/test-kitchen), [kitchen-vagrant](https://github.com/test-kitchen/kitchen-vagrant), and [serverspec](serverspec.org) for integration testing. You can take a look at [.kitchen.yml] for how tests are set up.
-* Unit testing is run with [ChefSpec](https://github.com/sethvargo/chefspec)
-* Linting is done with [foodcritic](https://acrmp.github.io/foodcritic/) and [rubocop](https://github.com/bbatsov/rubocop)
+Integration tests are run with [test-kitchen](https://github.com/test-kitchen/test-kitchen), [kitchen-vagrant](https://github.com/test-kitchen/kitchen-vagrant), and [serverspec](serverspec.org) for integration testing. You can take a look at [.kitchen.yml] for how tests are set up. Run with:
+```
+rake kitchen:all
+```
+
+Unit testing is run with [ChefSpec](https://github.com/sethvargo/chefspec)
+
+Linting is done with [foodcritic](https://acrmp.github.io/foodcritic/) and [rubocop](https://github.com/bbatsov/rubocop)
+
+Run unit and linting with:
+```
+rake test
+```
 
 
 License and Authors
