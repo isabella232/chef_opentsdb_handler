@@ -43,7 +43,13 @@ Attributes
     <td><tt>['opentsdb_handler'][handler_name]['run_status_tag']</tt></td>
     <td>Boolean</td>
     <td>Will add run_status=0|1 tag if true</td>
-    <td><tt>true</tt></td>
+    <td><tt>false</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['opentsdb_handler']['run_status']['elapsed_time'|'start_time'|'end_time']</tt></td>
+    <td>Boolean</td>
+    <td>Will send a metric of the chef.elapsed_time (or start_time or end_time) if true. Change tags on ['handlers']['elapsed_time']['tags']</td>
+    <td><tt>false</tt></td>
   </tr>
   <tr>
     <td><tt>['opentsdb_handler']['hostname']</tt></td>

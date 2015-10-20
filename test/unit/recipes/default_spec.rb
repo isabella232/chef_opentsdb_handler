@@ -17,7 +17,17 @@ describe "opentsdb_handler::default" do
   it "enables the opentsdb handler" do
     expect(chef_run).to enable_chef_handler("Chef::Handler::OpenTSDB").at_compile_time.with(
       source: "handler_file",
-      arguments: [{ "handlers" => {}, "handler_path" => "handler_file" }]
+      arguments: [
+        {
+          "handlers" => {},
+          "run_status_tag" => false,
+          "run_status" => {
+            "elapsed_time" => false,
+            "start_time" => false,
+            "end_time" => false },
+          "handler_path" => "handler_file"
+        }
+      ]
     )
   end
 end

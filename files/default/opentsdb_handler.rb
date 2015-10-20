@@ -17,7 +17,8 @@ class Chef::Handler::OpenTSDB < Chef::Handler
   end
 
   def report
-    @handlers.each do |_name, handler|
+    handlers = add_run_status_metrics
+    handlers.each do |_name, handler|
       begin
         Timeout.timeout(@timeout) do
           send_metric(handler)
@@ -30,11 +31,30 @@ class Chef::Handler::OpenTSDB < Chef::Handler
 
   private
 
+  def add_run_status_metrics
+    # attribute is immutable  and not hash:/
+    handlers = @handlers.to_hash
+    @config["run_status"].each do |key, value|
+      next unless value
+      handler_hash = {
+        "metric" => "chef.#{key}",
+        "value" => run_status.send(key)
+      }
+      if handlers[key]
+        handlers[key] = handlers[key].merge(handler_hash)
+      else
+        handlers[key] = handler_hash
+      end
+    end
+    handlers
+  end
+
   def send_metric(handler)
     # rubocop:disable UselessAssignment
     req = Net::HTTP::Post.new(@path, initheader = { "Content-Type" => "application/json" })
     # rubocop:enable UselessAssignment
     req.body = format_body(handler)
+    puts req.body
     response = Net::HTTP.new(@hostname, @port).start { |http| http.request(req) }
     response.value
   end

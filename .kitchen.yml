@@ -21,6 +21,8 @@ suites:
         hbase_version: "0.94.27"
       opentsdb_handler:
         hostname: localhost
+        run_status:
+          elapsed_time: true
         handlers:
           test_handler_with_tags:
             metric: "test.withtags"

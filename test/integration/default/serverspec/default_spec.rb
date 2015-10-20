@@ -34,4 +34,9 @@ end
 describe command("curl -s 'http://localhost:4242/api/query?start=2m-ago&m=sum:test.withtags%7Brun_status=0%7D' | jq -c '.[0].dps'") do
   its(:stdout) { should match("null\n") }
 end
+
+# chef.elapsed_time should exist
+describe command("curl -s 'http://localhost:4242/api/query?start=2m-ago&m=sum:chef.elapsed_time%7Bhost=default-ubuntu-1404%7D' | jq -c '.[0].dps'") do
+  its(:stdout) { should match(/\{"\d{10}":\d{1}\.\d{14}\}/) }
+end
 # rubocop:enable LineLength
