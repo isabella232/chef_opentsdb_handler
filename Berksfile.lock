@@ -1,0 +1,18 @@
+DEPENDENCIES
+  java (~> 1.35.0)
+  opentsdb (~> 1.0.0)
+  opentsdb_handler
+    path: .
+    metadata: true
+
+GRAPH
+  chef_handler (1.2.0)
+  java (1.35.0)
+  opentsdb (1.0.0)
+    poise (~> 2.2)
+    poise-service (~> 1.0)
+  opentsdb_handler (0.1.0)
+    chef_handler (~> 1.2.0)
+  poise (2.4.0)
+  poise-service (1.0.2)
+    poise (~> 2.0)

@@ -1,0 +1,32 @@
+AllCops:
+  RunRailsCops: true
+
+  Exclude:
+    - "bin/**/*"
+    - "vendor/**/*"
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 20
+
+SingleSpaceBeforeFirstArg:
+    Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Description: Document classes and non-namespace modules.
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
