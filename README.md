@@ -36,17 +36,11 @@ Attributes
   <tr>
     <td><tt>['opentsdb_handler']['handlers'][handler_name]['tags']</tt></td>
     <td>Hash</td>
-    <td>Key => Value hash of tags for the metric. If none supplied, it is overwritten by ['opentsdb_handler']['handlers']['default_tags']</td>
-    <td><tt>{}</tt></td>
+    <td>Key => Value hash of tags for the metric.</td>
+    <td><tt>{'hostname' => Socket.gethostname}(IN HANDLER SCRIPT)</tt></td>
   </tr>
   <tr>
-    <td><tt>['opentsdb_handler']['handlers']['default_tags']</tt></td>
-    <td>Hash</td>
-    <td>Key => Default set of tags for metric</td>
-    <td><tt>{'hostname' => node['hostname']}</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['opentsdb_handler']['add_run_status_tag']</tt></td>
+    <td><tt>['opentsdb_handler'][handler_name]['run_status_tag']</tt></td>
     <td>Boolean</td>
     <td>Will add run_status=0|1 tag if true</td>
     <td><tt>true</tt></td>
@@ -55,19 +49,19 @@ Attributes
     <td><tt>['opentsdb_handler']['hostname']</tt></td>
     <td>opentsdb</td>
     <td>Hostname of OpenTSDB server</td>
-    <td><tt>{}</tt></td>
+    <td><tt>opentsdb (IN HANDLER SCRIPT)</tt></td>
   </tr>
   <tr>
     <td><tt>['opentsdb_handler']['port']</tt></td>
     <td>Integer</td>
     <td>Port of OpenTSDB server</td>
-    <td><tt>4242</tt></td>
+    <td><tt>4242 (IN HANDLER SCRIPT)</tt></td>
   </tr>
   <tr>
     <td><tt>['opentsdb_handler']['timeout']</tt></td>
     <td>Integer</td>
     <td>Timeout before failing to send to metric</td>
-    <td><tt>10</tt></td>
+    <td><tt>10 (IN HANDLER SCRIPT)</tt></td>
   </tr>
 </table>
 

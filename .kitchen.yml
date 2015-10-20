@@ -1,7 +1,8 @@
 # .kitchen.yml or opentsdb_handler
 driver:
   name: vagrant
-
+  network:
+    - ["forwarded_port", {guest: 4242, host: 4242}]
 provisioner:
   name: chef_solo
 
@@ -11,24 +12,26 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[java]
-      - recipe[opentsdb]
-      - recipe[opentsdb_handler::default]
+      - recipe[opentsdb::install]
+      - recipe[opentsdb::start]
+      - recipe[opentsdb_handler]
       - recipe[opentsdb_handler::test_helpers]
     attributes:
+      opentsdb:
+        hbase_version: "0.94.27"
       opentsdb_handler:
         hostname: localhost
         handlers:
           test_handler_with_tags:
-            metric: test.with_tags
+            metric: "test.withtags"
             value: 1
             tags:
               test_tag: "test_value"
           test_handler_without_tags:
-            metric: test.metric_without_tags
+            metric: "test.withouttags"
             value: 1
           test_handler_with_run_status:
-            metric: test.metric_without_run_status
+            metric: "test.withrunstatus"
             value: 1
-            run_status_tag: false
+            run_status_tag: true
 

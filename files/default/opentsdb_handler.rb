@@ -17,13 +17,13 @@ class Chef::Handler::OpenTSDB < Chef::Handler
   end
 
   def report
-    @handlers.each do |handler|
+    @handlers.each do |name, handler|
       begin
         Timeout.timeout(@timeout) do
           send_metric(handler)
         end
       rescue StandardError => e
-        Chef::Log.warn("OpenTSDB handler failed to send metric #{config['metric']}: #{e.message}")
+        Chef::Log.warn("OpenTSDB handler failed to send metric #{handler["metric"]}:\n #{e}")
       end
     end
   end
@@ -31,26 +31,28 @@ class Chef::Handler::OpenTSDB < Chef::Handler
   private
 
   def send_metric(handler)
-    handler["tags"] ||= { "hostname" => Socket.gethostname }
     # rubocop:disable UselessAssignment
-    req = Net::HTTP::Put.new(path, initheader = { "Content-Type" => "application/json" })
+    req = Net::HTTP::Post.new(@path, initheader = { "Content-Type" => "application/json" })
     # rubocop:enable UselessAssignment
     req.body = format_body(handler)
-    Net::HTTP.new(hostname, port).start { |http| http.request(req) }
+    response = Net::HTTP.new(@hostname, @port).start { |http| http.request(req) }
+    response.value
   end
 
   def format_body(handler)
     body = {
       "metric" => handler["metric"],
       "timestamp" => @time,
-      "value" => config["value"],
+      "value" => handler["value"],
       "tags" => get_tags(handler)
     }
     body.to_json
   end
 
   def get_tags(handler)
-    if handler.key?("run_status_tag") && !handler["run_status_tag"]
+    # use 'host' for key due to opentsdb convention
+    tags = handler["tags"] || { "host" => Socket.gethostname }
+    if handler["run_status_tag"]
       tags.merge("run_status" => run_status.success? ? 0 : 1)
     else
       tags

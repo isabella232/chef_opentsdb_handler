@@ -27,3 +27,6 @@ ruby_block "dump_node_attributes" do
     File.open("/opt/serverspec/node.json", "w") { |file| file.write(JSON.pretty_generate(attrs)) }
   end
 end
+
+package "curl"
+package "jq"
