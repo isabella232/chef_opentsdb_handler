@@ -1,2 +1,2 @@
-require 'stove/rake_task'
+require "stove/rake_task"
 Stove::RakeTask.new
