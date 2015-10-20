@@ -8,3 +8,6 @@ ChefSpec::Coverage.start!
 Dir[File.expand_path("../../../libraries/*.rb", __FILE__)].each do |f|
   require File.expand_path(f)
 end
+
+# Require the handler
+require_relative "../../files/default/opentsdb_handler.rb"

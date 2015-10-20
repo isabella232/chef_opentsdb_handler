@@ -17,13 +17,13 @@ class Chef::Handler::OpenTSDB < Chef::Handler
   end
 
   def report
-    @handlers.each do |name, handler|
+    @handlers.each do |_name, handler|
       begin
         Timeout.timeout(@timeout) do
           send_metric(handler)
         end
       rescue StandardError => e
-        Chef::Log.warn("OpenTSDB handler failed to send metric #{handler["metric"]}:\n #{e}")
+        Chef::Log.warn("OpenTSDB handler failed to send metric #{handler['metric']}:\n #{e}")
       end
     end
   end
