@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: chef-opentsdb_handler
+# Cookbook Name:: opentsdb_handler
 # Recipe:: default
 #
 # This installs the opentsdb handler

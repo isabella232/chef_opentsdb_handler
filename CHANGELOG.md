@@ -1,11 +1,11 @@
-chef-opentsdb_handler CHANGELOG
+opentsdb_handler CHANGELOG
 ===============================
 
-This file is used to list changes made in each version of the chef-opentsdb_handler cookbook.
+This file is used to list changes made in each version of the opentsdb_handler cookbook.
 
 0.1.0
 -----
-- [your_name] - Initial release of chef-opentsdb_handler
+- [mi-wood] - Initial release of opentsdb_handler
 
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
