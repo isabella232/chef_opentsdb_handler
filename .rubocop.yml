@@ -1,6 +1,7 @@
 AllCops:
   RunRailsCops: true
-
+  Include:
+    - '.rake/**/*'
   Exclude:
     - "bin/**/*"
     - "vendor/**/*"
