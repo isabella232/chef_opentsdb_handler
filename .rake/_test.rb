@@ -1,4 +1,3 @@
-require "rspec/core/rake_task"
 require "rubocop/rake_task"
 
 desc "Default task runs foodcritic, RuboCop and Chefspec"
@@ -13,8 +12,11 @@ namespace :test do
   desc "Run RuboCop linter"
   RuboCop::RakeTask.new
 
-  desc "Run ChefSpec unit tests"
-  RSpec::Core::RakeTask.new(:chefspec)
+  desc "Run Chefspec tests"
+  task :chefspec do
+    require "rspec"
+    sh "bundle exec rspec --options .rspec  --pattern $PWD/test/unit/**/*_spec.rb"
+  end
 end
 
 # Run these separately than test task, due to resource intensiveness
