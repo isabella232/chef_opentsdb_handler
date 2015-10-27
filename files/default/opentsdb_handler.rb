@@ -24,7 +24,7 @@ class Chef::Handler::OpenTSDB < Chef::Handler
           send_metric(metric)
         end
       rescue StandardError => e
-        Chef::Log.warn("OpenTSDB metric failed to send metric #{metric['metric']}:\n #{e}")
+        Chef::Log.warn("OpenTSDB metric failed to send metric #{metric['name']}:\n #{e}")
       end
     end
   end

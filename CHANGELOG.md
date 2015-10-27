@@ -1,7 +1,9 @@
 opentsdb_handler CHANGELOG
 ===============================
 
-This file is used to list changes made in each version of the opentsdb_handler cookbook.
+0.1.1
+-----
+- [mi-wood] - Fix logging
 
 0.1.0
 -----
